@@ -1,6 +1,13 @@
 # encoding: utf-8
 module PrettySearch
 
+  autoload :Field,                  'pretty_search/field'
+  autoload :Searcher,               'pretty_search/searcher'
+  autoload :Query,                  'pretty_search/query'
+
+  autoload :PrettySearchController, 'pretty_search/app/controllers/pretty_search/pretty_search_controller'
+  autoload :PrettySearchHelper,     'pretty_search/app/helpers/pretty_search_helper'
+
   # Поля, по которым будет осуществляться поиск,
   # в случае, если :field_name не указан явно при вызове хелпера
   mattr_accessor :default_search_fields
