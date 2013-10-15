@@ -1,4 +1,4 @@
 # encoding: utf-8
-Rails.application.routes.draw do
-  match 'pretty_search/query/:model_name' => 'pretty_search#search', :as => :query, :via => :get
+PrettySearch::Engine.routes.draw do
+  match 'query/:model_name' => 'pretty_search#search', :as => :query, :via => :get
 end

@@ -20,7 +20,7 @@
     var $this = $(this);
     $('.ui-dialog-buttonpane button:contains(OK)', $this.closest('.ui-dialog')).button('disable');
     $.get($this.attr('href'), function(response) {
-      $('.js-reference-result').html(response);
+      $this.closest('.js-reference-result').html(response);
     });
     return false;
   });

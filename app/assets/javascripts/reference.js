@@ -41,10 +41,10 @@ function Reference(options) {
           _$container.find('.js-reference-result').html(response);
         },
         beforeSend: function() {
-          _$container.find('.js-reference-button, .js-reference-input').addClass(_options.classLoader).prop('disabled', true);  
+          _$container.find('.js-reference-button, .js-reference-input').addClass(_options.classLoader).prop('disabled', true);
         },
         complete: function() {
-          _$container.find('.js-reference-button, .js-reference-input').removeClass(_options.classLoader).prop('disabled', false);  
+          _$container.find('.js-reference-button, .js-reference-input').removeClass(_options.classLoader).prop('disabled', false);
         }
       },
       captionButton: 'Найти',

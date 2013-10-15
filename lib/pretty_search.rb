@@ -1,12 +1,16 @@
 # encoding: utf-8
+require "pretty_search/engine"
+
 module PrettySearch
+
+  require 'pretty_search/railtie' if defined?(Rails)
 
   autoload :Field,                  'pretty_search/field'
   autoload :Searcher,               'pretty_search/searcher'
   autoload :Query,                  'pretty_search/query'
 
-  autoload :PrettySearchController, 'pretty_search/app/controllers/pretty_search/pretty_search_controller'
-  autoload :PrettySearchHelper,     'pretty_search/app/helpers/pretty_search_helper'
+  require_relative '../app/controllers/pretty_search/pretty_search_controller.rb'
+  require_relative '../app/controllers/pretty_search_controller.rb'
 
   # Поля, по которым будет осуществляться поиск,
   # в случае, если :field_name не указан явно при вызове хелпера
