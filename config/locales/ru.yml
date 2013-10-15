@@ -1,0 +1,4 @@
+ru:
+  pretty_search:
+    notifications:
+      no_results: 'Ничего не нашлось. Попробуйте скорректировать запрос.'
