@@ -3,10 +3,6 @@ require "pretty_search/engine"
 
 module PrettySearch
 
-  # Чтобы в инишиалайзере можно было задать URL для редиректа через url_helper
-  include ActionView::Helpers
-  include ActionDispatch::Routing
-
   require 'pretty_search/railtie' if defined?(Rails)
 
   autoload :Field,                  'pretty_search/field'
