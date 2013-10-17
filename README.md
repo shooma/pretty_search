@@ -33,6 +33,20 @@ PrettySearch::PrettySearchController.send(:include, Rails.application.routes.url
 ```
 match 'query/:model_name' => 'pretty_search#search', :as => :query, :via => :get
 ```
+Если вы заботитесь о безопасности данных в вашей БД, то в том же инишиалайзере добавить условие,
+по которму будет проверяться (в простейшем случае) авторизован ли пользователь,
+и URL, на который будет перенаправлен пользователь, если `authorised` разрешается в false:
+```
+#less config/initializers/pretty_search.rb
+PrettySearch::PrettySearchController.send(:before_filter, :authenticate_user!)
+PrettySearch::PrettySearchController.send(:extend, Devise::Controllers::Helpers)
+
+PrettySearch.setup do |config|
+  # Лямбда-флаг, возвращающий true если пользователь имеет право на доступ к ресурсам проекта
+  config.authorised = -> { return PrettySearch::PrettySearchController.user_signed_in? }
+  config.auth_url = root_url
+end
+```
 
 ## Usage
 
@@ -45,7 +59,6 @@ match 'query/:model_name' => 'pretty_search#search', :as => :query, :via => :get
   -# ...
   = input_with_search(:model_name => 'company', :field_name => 'title', :field_list => [:id, :title], :search_type => 'matches')
   -# ...
-= end
 ```
 
 Результатом рендера хелпера `input_with_search` станут input, hidden input и кнопка, разворачивающая попап c поиском.
