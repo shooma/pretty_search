@@ -1,5 +1,0 @@
-%li{:id => "#{options[:model_name]}_#{options[:field_name]}_input", :class => "input require"}
-  %label{:class => "#{options[:model_name]}_#{options[:field_name]}_input"}= t("activerecord.attributes.#{options[:model_name]}.#{options[:field_name]}") if options[:field_name].present?
-  %input{:class => "hidden-#{options[:field_name]}", :type => "hidden"}
-  %input{:class => "input-#{options[:field_name]}", :type => "text", :readonly => true, :size => 50}
-  %button#ref{:type => "button", 'data-reference-url' => query_path(options), 'data-reference-title' => t("activerecord.attributes.#{options[:model_name]}.#{options[:field_name]}"), 'data-reference-selector-id' => ".hidden-#{options[:field_name]}", 'data-reference-selector-text' => ".input-#{options[:field_name]}"} #{options[:button_text] || "..."}
