@@ -9,8 +9,9 @@
 ## Installation
 
 Добавь в Gemfile:
-
-`gem "pretty_search"`
+```
+gem 'pretty_search', '= 0.1.0', :git => 'git@github.com:shooma/pretty_search.git'
+```
 
 В application.js (или в сборку, в которой собираетесь использовать) добавляем
 ```

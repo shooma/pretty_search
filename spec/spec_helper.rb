@@ -1,5 +1,4 @@
 # encoding: utf-8
-# This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require 'rspec/rails'
 
@@ -39,8 +38,4 @@ RSpec.configure do |config|
       Object.send(:remove_const, :Company)
     end
   end
-
-  #config.before(:all) do
-  #  PrettySearch.setup(:default_search_fields => [:title, :name])
-  #end
 end
