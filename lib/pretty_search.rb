@@ -11,6 +11,7 @@ module PrettySearch
 
   require_relative '../app/controllers/pretty_search/pretty_search_controller.rb'
   require_relative '../app/controllers/pretty_search_controller.rb'
+  require_relative 'pretty_search/errors.rb'
 
   # Поля, по которым будет осуществляться поиск,
   # в случае, если :field_name не указан явно при вызове хелпера
@@ -37,6 +38,11 @@ module PrettySearch
   # URL, на который будем отправлять пользователя, для которого
   # PrettySearch.authorised разрешается в false
   mattr_accessor :auth_url
+
+  # Список разрешенных к использованию для поиска методов,
+  # по дефолту - список поисковых методов-предикатов
+  mattr_accessor :accessible_search_methods
+  self.authorised = Arel::Predications.public_instance_methods(false)
 
   # Public: Метод для настройки PrettySearch
   # Параметры в PrettySearch могут быть определены через mattr_accessor

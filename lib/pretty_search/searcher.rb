@@ -22,14 +22,18 @@ module PrettySearch
     # Обязательный аргумент - инстанс класса 'PrettySearch::Query'
     # Возвращает 'Relation'
     def handle(query)
-      condition = model_class.arel_table[field.name].send(query.search_type, query.value)
+      if PrettySearch.accessible_search_methods.include?(query.search_type)
+        condition = model_class.arel_table[field.name].send(query.search_type, query.value)
 
-      model_class.
-        select(field_list).
-        where(condition).
-        order(query.order).
-        page(query.page).
-        per(query.limit)
+        model_class.
+          select(field_list).
+          where(condition).
+          order(query.order).
+          page(query.page).
+          per(query.limit)
+      else
+        raise PrettySearch::WrongSearchTypeError
+      end
     end
 
     protected

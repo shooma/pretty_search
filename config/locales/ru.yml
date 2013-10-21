@@ -2,3 +2,6 @@ ru:
   pretty_search:
     notifications:
       no_results: 'Ничего не нашлось. Попробуйте скорректировать запрос.'
+    errors:
+      not_specified_url: 'Не указан адрес для редиректа пользователей, не имеющих доступа к запрашиваемому ресурсу. Смотри метод PrettySearch.auth_url'
+      wrong_search_type: 'Указанный тип поиска не поддерживается. Список поддерживаемых типов можно получить методом PrettySearch.accessible_search_methods'

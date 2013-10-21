@@ -22,7 +22,7 @@ module PrettySearch
         @results = searcher.handle(query)
       else
         redirect_to PrettySearch.auth_url if PrettySearch.auth_url.present?
-        raise NotImplementedError
+        raise PrettySearch::NotSpecifiedUrlError
       end
     end
 
