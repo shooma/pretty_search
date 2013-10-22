@@ -1,7 +1,13 @@
 module PrettySearch
   class Field
+    # Public: Задает/считывает имя и тип поля.
     attr_accessor :name, :type
 
+    # Public: Инициализирует поле.
+    #
+    # model_class - Класс, по которому будет осуществляться поиск (обяз.).
+    # field_name  - Строка с именем поля, по которому
+    #               будет осуществлятсья поиск (необяз.).
     def initialize(model_class, field_name = nil)
       # Если поле не передано, пробуем стандартные, указанные в конфиге поля
       if field_name.nil?

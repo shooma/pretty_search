@@ -42,7 +42,26 @@ module PrettySearch
   # Список разрешенных к использованию для поиска методов,
   # по дефолту - список поисковых методов-предикатов
   mattr_accessor :accessible_search_methods
-  self.authorised = Arel::Predications.public_instance_methods(false)
+  self.accessible_search_methods = Arel::Predications.public_instance_methods(false)
+
+  # Public: Задает/считывает список разрешенных к поиску и селекту полей таблиц.
+  # Ниже по приоритету чем 'disabled_fields', т.е. если в 'disabled_fields' указаны какие-то поля,
+  # то эта переменная использоваться не будет.
+  #
+  # Examples
+  #
+  #  self.enabled_fields = {:company => [:title, :main_region]}
+  mattr_accessor :enabled_fields
+  self.enabled_fields = {}
+
+  # Public: Задает/считывает список запрещенных к поиску и селекту полей таблиц.
+  # Приоритетнее чем 'enabled_fields'.
+  #
+  # Examples
+  #
+  #  self.disabled_fields = {:user => [:auth_token, :reg_token]}
+  mattr_accessor :disabled_fields
+  self.disabled_fields = {}
 
   # Public: Метод для настройки PrettySearch
   # Параметры в PrettySearch могут быть определены через mattr_accessor
@@ -55,18 +74,18 @@ module PrettySearch
   #
   # Examples
   #
-  # # В pretty_search.rb
-  # mattr_accessor :foo
+  #  # В pretty_search.rb
+  #  mattr_accessor :foo
   #
-  # # В приложении
-  # PrettySearch.setup do |config|
-  #   config.foo = 'bar'
-  # end
+  #  # В приложении
+  #  PrettySearch.setup do |config|
+  #    config.foo = 'bar'
+  #  end
   #
-  # # Или
-  # PrettySearch.setup(foo: 'bar')
+  #  # Или
+  #  PrettySearch.setup(foo: 'bar')
   #
-  # PrettySearch.foo # => 'bar'
+  #  PrettySearch.foo # => 'bar'
   #
   # Returns nothing
   def self.setup(options = nil)

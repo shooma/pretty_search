@@ -16,4 +16,10 @@ module PrettySearch
       super(msg)
     end
   end
+
+  class UnavailableFieldError < PrettyError
+    def initialize(msg = I18n.t('pretty_search.errors.unavailable_field'))
+      super(msg)
+    end
+  end
 end
