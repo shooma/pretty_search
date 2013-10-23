@@ -10,11 +10,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rails', ['~> 3']
   gem.add_runtime_dependency 'haml', ['>= 0']
 
-  gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rspec-rails', '~> 2.13'
   gem.add_development_dependency 'shoulda-matchers', '~> 1.5.2'
-  gem.add_development_dependency 'actionpack'
-  gem.add_development_dependency 'activesupport'
 
   gem.authors       = ["shooma", "waxerdima"]
   gem.email         = ["neshooma@mail.ru", "shooma@mishkov@gmail.com"]

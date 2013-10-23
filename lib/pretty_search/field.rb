@@ -1,3 +1,11 @@
+# encoding: utf-8
+# Public: Реализует методы атрибутов и параметров поля,
+# по которому осуществляется поиск.
+#
+# Examples
+#
+#   field.name => :title
+#   field.model_class => Company
 module PrettySearch
   class Field
     # Public: Задает/считывает имя, тип поля, и класс к которому поле относится.

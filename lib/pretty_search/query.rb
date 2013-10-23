@@ -1,4 +1,11 @@
 # encoding: utf-8
+# Public: Реализует объект, хранит в себе знания о запросе,
+# списке возвращаемых полей и классе поиска.
+#
+# Examples
+#
+#   query.limit => 5
+#   query.search_type => 'matches'
 module PrettySearch
   class Query
     # Public: Задает/считывает основные опции запроса:

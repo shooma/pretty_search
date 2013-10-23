@@ -1,4 +1,10 @@
 # encoding: utf-8
+# Public: Реализует метод поиска, также хранит в себе знание о поле,
+# списке возвращаемых полей и классе поиска.
+#
+# Examples
+#
+#   searcher.handle(query) => ActiveRecord::Relation
 module PrettySearch
   class Searcher
     # Public: Задает/считывает класс, по которому будем искать записи.

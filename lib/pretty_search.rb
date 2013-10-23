@@ -13,29 +13,36 @@ module PrettySearch
   require_relative '../app/controllers/pretty_search_controller.rb'
   require_relative 'pretty_search/errors.rb'
 
-  # Поля, по которым будет осуществляться поиск,
+  # Public: Поля, по которым будет осуществляться поиск,
   # в случае, если :field_name не указан явно при вызове хелпера
   mattr_accessor :default_search_fields
   self.default_search_fields = [:title, :name]
 
-  # Хэш, где ключом является символьное имя класса, по которому будет осуществляться поиск,
-  # а значение - массив символов - имен возвращаемых колонок в БД, а-ля:
-  # { :company => [:id, :title, :updated_at] }
+  # Public: Хэш, где ключом является символьное имя класса, по которому будет осуществляться поиск,
+  # а значение - массив символов - имен возвращаемых колонок в БД.
+  #
+  # Examples
+  #
+  #   PrettySearch.fields => { :company => [:id, :title, :updated_at] }
   mattr_accessor :fields
   self.fields = {}
 
-  # Массив возвращаемых селектом полей, если список полей
+  # Public: Массив возвращаемых селектом полей, если список полей
   # (1) ни передан из view,
   # (2) ни найден в полях для конкретного класса 'PrettySearch.fields[<model_name>]'
   mattr_accessor :default_selected_fields
   self.default_selected_fields = [:id]
 
-  # Переменная-флаг, сообщающая контроллеру права пользователя на доступ к БД.
+  # Public: Переменная-флаг, сообщающая контроллеру права пользователя на доступ к БД.
   # Если не менять эту переменную, то любой пользователь, обладающий правильной ссылкой получит искомые данные
+  #
+  # Examples
+  #
+  #   PrettySearch.authorised = -> { PrettySearch::PrettySearchController.user_signed_in? }
   mattr_accessor :authorised
   self.authorised = true
 
-  # URL, на который будем отправлять пользователя, для которого
+  # Public: URL, на который будем отправлять пользователя, для которого
   # PrettySearch.authorised разрешается в false
   mattr_accessor :auth_url
 
