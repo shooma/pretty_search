@@ -12,6 +12,9 @@ module PrettySearch
     # @results - 'ActiveRecord::Relation' с выбранными результатами.
     # Либо же редиректит на указанный в переменной 'PrettySearch.auth_url',
     # если у пользователя нет прав на просмотр данной страницы, 'auth_url' присутствует.
+    #
+    # Если поле, по которому нужно осуществить поиск, либо какое-то из возвращаемых полей
+    # не доступно к использованию гемом, вернется 500 'PrettySearch::UnavailableFieldError'.
     def search
       if PrettySearch.authorised
         search_params = params.slice(*SEARCH_PARAMS).symbolize_keys
@@ -20,15 +23,19 @@ module PrettySearch
         searcher = PrettySearch::Searcher.new(search_params)
         query = PrettySearch::Query.new(query_params)
 
-        @options = {
+        if searcher.field.available_for_search? && searcher.available_for_select?
+          @options = {
             model_name: search_params[:model_name],
             field_name: searcher.field.name,
             field_list: searcher.field_list
-        }
+          }
 
-        @results = searcher.handle(query)
+          @results = searcher.handle(query)
+        else
+          raise PrettySearch::UnavailableFieldError
+        end
       else
-        redirect_to PrettySearch.auth_url if PrettySearch.auth_url.present?
+        return redirect_to PrettySearch.auth_url if PrettySearch.auth_url.present?
         raise PrettySearch::NotSpecifiedUrlError
       end
     end

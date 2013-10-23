@@ -5,10 +5,9 @@ require_relative '../../fake_models'
 describe PrettySearch::Field do
 
   before { PrettySearch.stub(:default_search_fields).and_return([:title, :name]) }
+  let(:title) { 'title' }
 
   describe '.initialize' do
-    let(:title) { 'title' }
-
     context 'when field_name present' do
       let(:field) { PrettySearch::Field.new(Company, title) }
 
@@ -59,6 +58,46 @@ describe PrettySearch::Field do
           PrettySearch::Field.new(Mug)
         end
       end
+    end
+  end
+
+  describe '.available_for_search?' do
+    let(:field) { PrettySearch::Field.new(Company, title) }
+
+    context 'when disabled fields present, and field presents in disabled fields' do
+      before { PrettySearch.disabled_fields = {:company => [:title]} }
+
+      it 'shouldn\'t be available for search' do
+        expect(field.available_for_search?).to be_false
+      end
+    end
+
+    context 'when enabled_fields present, and field presents in enabled fields' do
+      before { PrettySearch.enabled_fields = {:company => [:title]} }
+
+      it 'should be available for search' do
+        expect(field.available_for_search?).to be_true
+      end
+    end
+
+    context 'when both, enabled and disabled fields are blank' do
+      it 'should be available for search' do
+        expect(field.available_for_search?).to be_true
+      end
+    end
+
+    context 'when both, enabled and disabled fields presents' do
+      before { PrettySearch.enabled_fields  = {:company => [:title]} }
+      before { PrettySearch.disabled_fields = {:company => [:title]} }
+
+      it 'disabled option override enabled, and field shouldn\'t be available for search' do
+        expect(field.available_for_search?).to be_false
+      end
+    end
+
+    after(:each) do
+      PrettySearch.disabled_fields = {}
+      PrettySearch.enabled_fields = {}
     end
   end
 end

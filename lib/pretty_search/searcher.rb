@@ -37,8 +37,6 @@ module PrettySearch
     # 1. 'PrettySearch::WrongSearchTypeError'
     # 2. 'PrettySearch::UnavailableFieldError'
     def handle(query)
-      validate_fields_availability
-
       if PrettySearch.accessible_search_methods.include?(query.search_type.to_sym)
         condition = model_class.arel_table[field.name].send(query.search_type, query.value)
 
@@ -50,6 +48,29 @@ module PrettySearch
           per(query.limit)
       else
         raise PrettySearch::WrongSearchTypeError
+      end
+    end
+
+    # Public: Проверяет, можно ли возвращать выбранные поля.
+    #
+    # Returns bool.
+    def available_for_select?
+      model_name = model_class.to_s.downcase.to_sym
+
+      if PrettySearch.disabled_fields.any?
+        if PrettySearch.disabled_fields.keys.include? model_name
+          (field_list & PrettySearch.disabled_fields[model_name]).none?
+        else
+          true
+        end
+      elsif PrettySearch.enabled_fields.any?
+        if PrettySearch.enabled_fields.keys.include? model_name
+          (field_list - PrettySearch.enabled_fields[model_name]).none?
+        else
+          false
+        end
+      else
+        true
       end
     end
 
@@ -87,34 +108,6 @@ module PrettySearch
     def set_field_list_for(model_name, list = nil)
       list ||= PrettySearch.fields[model_name.to_sym] || PrettySearch.default_selected_fields
       self.field_list = list.map(&:to_sym) if list
-    end
-
-    # Internal: Проверяет @field и @field_list на возможность быть использованными и выбранными.
-    # Если все в порядке, то не вернет ничего.
-    # Если не все - срейзит ошибку 'PrettySearch::UnavailableFieldError'
-    #
-    #
-    #
-    def validate_fields_availability
-      # some fuzzy logic with enabled and disabled fields
-      model_name = model_class.to_s.downcase.to_sym
-      used_fields = field_list | [field.name.to_sym]
-
-      if PrettySearch.disabled_fields.any?
-        if PrettySearch.disabled_fields.keys.include? model_name
-          if (used_fields & PrettySearch.disabled_fields[model_name]).any?
-            raise PrettySearch::UnavailableFieldError
-          end
-        end
-      elsif PrettySearch.enabled_fields.any?
-        if PrettySearch.enabled_fields.keys.include? model_name
-          if (used_fields - PrettySearch.enabled_fields[model_name]).any?
-            raise PrettySearch::UnavailableFieldError
-          end
-        else
-          raise PrettySearch::UnavailableFieldError
-        end
-      end
     end
   end
 end
