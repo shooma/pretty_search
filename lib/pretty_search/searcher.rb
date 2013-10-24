@@ -57,27 +57,11 @@ module PrettySearch
       end
     end
 
-    # Public: Проверяет, можно ли возвращать выбранные поля.
+    # Public: Генерирует хэш с возвращаемыми полями.
     #
-    # Returns bool.
-    def available_for_select?
-      model_name = model_class.to_s.downcase.to_sym
-
-      if PrettySearch.disabled_fields.any?
-        if PrettySearch.disabled_fields.keys.include? model_name
-          (field_list & PrettySearch.disabled_fields[model_name]).none?
-        else
-          true
-        end
-      elsif PrettySearch.enabled_fields.any?
-        if PrettySearch.enabled_fields.keys.include? model_name
-          (field_list - PrettySearch.enabled_fields[model_name]).none?
-        else
-          false
-        end
-      else
-        true
-      end
+    # Returns hash.
+    def to_hash
+      {model_class.to_s.downcase.to_sym => field_list}
     end
 
     protected

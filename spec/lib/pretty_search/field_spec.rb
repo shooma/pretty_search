@@ -61,43 +61,11 @@ describe PrettySearch::Field do
     end
   end
 
-  describe '.available_for_search?' do
+  describe '.to_hash' do
     let(:field) { PrettySearch::Field.new(Company, title) }
 
-    context 'when disabled fields present, and field presents in disabled fields' do
-      before { PrettySearch.disabled_fields = {:company => [:title]} }
-
-      it 'shouldn\'t be available for search' do
-        expect(field.available_for_search?).to be_false
-      end
-    end
-
-    context 'when enabled_fields present, and field presents in enabled fields' do
-      before { PrettySearch.enabled_fields = {:company => [:title]} }
-
-      it 'should be available for search' do
-        expect(field.available_for_search?).to be_true
-      end
-    end
-
-    context 'when both, enabled and disabled fields are blank' do
-      it 'should be available for search' do
-        expect(field.available_for_search?).to be_true
-      end
-    end
-
-    context 'when both, enabled and disabled fields presents' do
-      before { PrettySearch.enabled_fields  = {:company => [:title]} }
-      before { PrettySearch.disabled_fields = {:company => [:title]} }
-
-      it 'disabled option override enabled, and field shouldn\'t be available for search' do
-        expect(field.available_for_search?).to be_false
-      end
-    end
-
-    after(:each) do
-      PrettySearch.disabled_fields = {}
-      PrettySearch.enabled_fields = {}
+    it 'should return hash with model_class and field_name' do
+      expect(field.to_hash).to eq({:company => [:title]})
     end
   end
 end

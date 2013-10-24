@@ -29,27 +29,11 @@ module PrettySearch
       end
     end
 
-    # Public: Проверяет, разрешено ли искать записи по этому полю.
+    # Public: Возвращает поле как хэш.
     #
-    # Returns bool.
-    def available_for_search?
-      model_name = model_class.to_s.downcase.to_sym
-
-      if PrettySearch.disabled_fields.any?
-        if PrettySearch.disabled_fields.keys.include? model_name
-          ([name.to_sym] & PrettySearch.disabled_fields[model_name]).none?
-        else
-          true
-        end
-      elsif PrettySearch.enabled_fields.any?
-        if PrettySearch.enabled_fields.keys.include? model_name
-          ([name.to_sym] - PrettySearch.enabled_fields[model_name]).none?
-        else
-          false
-        end
-      else
-        true
-      end
+    # Returns hash.
+    def to_hash
+      {model_class.to_s.downcase.to_sym => [name.to_sym]}
     end
   end
 end

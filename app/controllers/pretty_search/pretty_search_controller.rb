@@ -23,7 +23,7 @@ module PrettySearch
         searcher = PrettySearch::Searcher.new(search_params)
         query = PrettySearch::Query.new(query_params)
 
-        if searcher.field.available_for_search? && searcher.available_for_select?
+        if PrettySearch.available_for_use?(searcher.field.to_hash) && PrettySearch.available_for_use?(searcher.to_hash)
           @options = {
             model_name: search_params[:model_name],
             field_name: searcher.field.name,

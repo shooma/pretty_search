@@ -47,9 +47,10 @@ module PrettySearch
   mattr_accessor :auth_url
 
   # Список разрешенных к использованию для поиска методов,
-  # по дефолту - список поисковых методов-предикатов
+  # по дефолту - список поисковых методов-предикатов, расчитаных на один аргумент:
+  # Arel::Predications.public_instance_methods(false).select{ |meth| !meth.match(/(_all\z)|(_any\z)/) }
   mattr_accessor :accessible_search_methods
-  self.accessible_search_methods = Arel::Predications.public_instance_methods(false)
+  self.accessible_search_methods = [:not_eq, :eq, :in, :not_in, :matches, :does_not_match, :gteq, :gt, :lt, :lteq]
 
   # Public: Задает/считывает список разрешенных к поиску и селекту полей таблиц.
   # Ниже по приоритету чем 'disabled_fields', т.е. если в 'disabled_fields' указаны какие-то поля,
@@ -58,6 +59,9 @@ module PrettySearch
   # Examples
   #
   #  self.enabled_fields = {:company => [:title, :main_region]}
+  #
+  #  Также вместо массива имен полей можно передать символ :all:
+  #  self.enabled_fields = {:company => :all}
   mattr_accessor :enabled_fields
   self.enabled_fields = {}
 
@@ -67,6 +71,9 @@ module PrettySearch
   # Examples
   #
   #  self.disabled_fields = {:user => [:auth_token, :reg_token]}
+  #
+  #  Также вместо массива имен полей можно передать символ :all:
+  #  self.enabled_fields = {:company => :all}
   mattr_accessor :disabled_fields
   self.disabled_fields = {}
 
@@ -100,6 +107,35 @@ module PrettySearch
       options.each { |option, value| self.send("#{option}=", value) }
     elsif block_given?
       yield self
+    end
+  end
+
+  # Public: Проверяет, разрешено ли искать записи по переданным полям,
+  # т.е. проверяет переменные @enabled_fields и @disabled_fields на присутствие
+  # в них указанных полей, и на этом основании делает вывод, можно ли использовать
+  # этот набор полей.
+  #
+  # hash - Хэш вида {:model_name => [:field_name, :field_name ...]}.
+  #
+  # Returns bool.
+  def self.available_for_use?(hash)
+    model_name = hash.keys.first
+    fields = hash.values.first
+
+    if self.disabled_fields.any?
+      if self.disabled_fields.keys.include? model_name
+        self.disabled_fields[model_name].equal?(:all) ? false : (fields & self.disabled_fields[model_name]).none?
+      else
+        true
+      end
+    elsif self.enabled_fields.any?
+      if self.enabled_fields.keys.include? model_name
+        self.enabled_fields[model_name].equal?(:all) ? true : (fields - self.enabled_fields[model_name]).none?
+      else
+        false
+      end
+    else
+      true
     end
   end
 end

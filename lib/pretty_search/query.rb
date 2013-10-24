@@ -30,10 +30,10 @@ module PrettySearch
     def initialize(*args)
       opts = args.extract_options!
 
-      self.limit = opts[:limit] || DEFAULT_LIMIT
-      self.page = opts[:page] || DEFAULT_PAGE
-      self.order = opts[:order] || DEFAULT_ORDER
-      self.search_type = opts[:search_type] || DEFAULT_SEARCH_TYPE
+      self.limit = opts.fetch(:limit, DEFAULT_LIMIT)
+      self.page = opts.fetch(:page, DEFAULT_PAGE)
+      self.order = opts.fetch(:order, DEFAULT_ORDER)
+      self.search_type = opts.fetch(:search_type, DEFAULT_SEARCH_TYPE)
       self.value = grind_value(opts[:q])
       # для обработки диапазонов нужно писать логику
     end
@@ -46,7 +46,7 @@ module PrettySearch
     #
     # Returns String.
     def grind_value(value)
-      /\Amatches/.match(search_type) ? "%#{value.strip.gsub(/\s+/, ' ')}%" : value
+      /\Amatch/.match(search_type) ? "%#{value.strip.gsub(/\s+/, ' ')}%" : value
     end
   end
 end
