@@ -22,8 +22,8 @@ class Company
     @@columns_hash = { 'title' => Field.new({ :name => :title, :type => :string }) }
   end
 
-  def self.attribute_names
-    %w(title)
+  def self.attribute_method?(meth)
+    meth == 'title'
   end
 end
 
@@ -41,8 +41,8 @@ class Mug
     @@columns_hash = { 'volume' => Field.new({ :name => :volume, :type => :fixnum }) }
   end
 
-  def self.attribute_names
-    %w(volume)
+  def self.attribute_method?(meth)
+    meth == 'volume'
   end
 end
 

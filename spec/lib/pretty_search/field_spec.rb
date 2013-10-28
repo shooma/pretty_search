@@ -4,7 +4,7 @@ require_relative '../../fake_models'
 
 describe PrettySearch::Field do
 
-  before { PrettySearch.stub(:default_search_fields).and_return([:title, :name]) }
+  before { PrettySearch.stub(:default_search_fields).and_return(%w(title name)) }
   let(:title) { 'title' }
 
   describe '.initialize' do
@@ -58,14 +58,6 @@ describe PrettySearch::Field do
           PrettySearch::Field.new(Mug)
         end
       end
-    end
-  end
-
-  describe '.to_hash' do
-    let(:field) { PrettySearch::Field.new(Company, title) }
-
-    it 'should return hash with model_class and field_name' do
-      expect(field.to_hash).to eq({:company => [:title]})
     end
   end
 end

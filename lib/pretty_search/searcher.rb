@@ -43,7 +43,7 @@ module PrettySearch
     # 1. 'PrettySearch::WrongSearchTypeError'
     # 2. 'PrettySearch::UnavailableFieldError'
     def handle(query)
-      if PrettySearch.accessible_search_methods.include?(query.search_type.to_sym)
+      if PrettySearch.accessible_search_methods.include?(query.search_type)
         condition = model_class.arel_table[field.name].send(query.search_type, query.value)
 
         model_class.
@@ -55,13 +55,6 @@ module PrettySearch
       else
         raise PrettySearch::WrongSearchTypeError
       end
-    end
-
-    # Public: Генерирует хэш с возвращаемыми полями.
-    #
-    # Returns hash.
-    def to_hash
-      {model_class.to_s.downcase.to_sym => field_list}
     end
 
     protected
@@ -96,8 +89,9 @@ module PrettySearch
     #
     # Returns массив символов - имен возвращаемых полей.
     def set_field_list_for(model_name, list = nil)
-      list ||= PrettySearch.fields[model_name.to_sym] || PrettySearch.default_selected_fields
-      self.field_list = list.map(&:to_sym) if list
+      self.field_list = list ||
+                        PrettySearch.fields.stringify_keys[model_name] ||
+                        PrettySearch.default_selected_fields
     end
   end
 end
