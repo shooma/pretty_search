@@ -15,11 +15,11 @@ class Company
   end
 
   def self.columns_hash
-    @@columns_hash
+    @columns_hash
   end
 
   def self.set_columns_hash
-    @@columns_hash = { 'title' => Field.new({ :name => :title, :type => :string }) }
+    @columns_hash = { 'title' => Field.new({ :name => :title, :type => :string }) }
   end
 
   def self.attribute_method?(meth)
@@ -34,11 +34,11 @@ class Mug
   end
 
   def self.columns_hash
-    @@columns_hash
+    @columns_hash
   end
 
   def self.set_columns_hash
-    @@columns_hash = { 'volume' => Field.new({ :name => :volume, :type => :fixnum }) }
+    @columns_hash = { 'volume' => Field.new({ :name => :volume, :type => :fixnum }) }
   end
 
   def self.attribute_method?(meth)
@@ -46,6 +46,5 @@ class Mug
   end
 end
 
-Company.set_columns_hash
-Mug.set_columns_hash
+[Company, Mug].each(&:set_columns_hash)
 

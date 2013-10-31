@@ -33,6 +33,16 @@ describe PrettySearch::Query do
         it { expect(query_with_order.page).to eq PrettySearch::Query::DEFAULT_PAGE }
         it { expect(query_with_search_type.order).to eq PrettySearch::Query::DEFAULT_ORDER }
       end
+      context 'if users limit more than sane limit' do
+        let(:query_with_limit) { PrettySearch::Query.new(:limit => PrettySearch::Query::DEFAULT_LIMIT_MAX * 2) }
+        it { expect(query_with_limit.limit).to eq PrettySearch::Query::DEFAULT_LIMIT_MAX }
+      end
+      context 'if users search type not present in acessible types' do
+        let(:query_with_search_type) { PrettySearch::Query.new(:search_type => 'unavailable_type', :q => 'rock company') }
+        it 'PrettySearch::WrongSearchTypeError should been raised' do
+          expect{ PrettySearch::Query.new(:search_type => 'unavailable_type', :q => 'rock company') }.to raise_error
+        end
+      end
     end
   end
 end

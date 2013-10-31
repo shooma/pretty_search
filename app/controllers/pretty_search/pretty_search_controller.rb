@@ -25,18 +25,14 @@ module PrettySearch
 
         model_class = searcher.model_class.name.underscore
 
-        if PrettySearch.available_for_use?(model_class, [searcher.field.name]) &&
-             PrettySearch.available_for_use?(model_class, searcher.field_list)
-          @options = {
-            model_name: search_params[:model_name],
-            field_name: searcher.field.name,
-            field_list: searcher.field_list
-          }
+        @options = {
+          model_name: search_params[:model_name],
+          field_name: searcher.field.name,
+          field_list: searcher.field_list
+        }
 
-          @results = searcher.handle(query)
-        else
-          raise PrettySearch::UnavailableFieldError
-        end
+        @results = searcher.handle(query)
+
       else
         return redirect_to PrettySearch.auth_url if PrettySearch.auth_url.present?
         raise PrettySearch::NotSpecifiedUrlError

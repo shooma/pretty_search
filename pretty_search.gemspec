@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "pretty_search"
-  gem.version       = '0.1.33'
+  gem.version       = '0.1.34'
 
   gem.add_runtime_dependency 'kaminari', ['>= 0.14']
   gem.add_runtime_dependency 'rails', ['~> 3']

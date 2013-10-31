@@ -19,6 +19,7 @@ module PrettySearch
     attr_accessor :value, :limit, :page, :order, :search_type
 
     DEFAULT_LIMIT = 10
+    DEFAULT_LIMIT_MAX = 100
     DEFAULT_PAGE = 1
     DEFAULT_ORDER = :id
     DEFAULT_SEARCH_TYPE = 'eq'
@@ -30,10 +31,15 @@ module PrettySearch
     def initialize(*args)
       opts = args.extract_options!
 
-      self.limit = opts.fetch(:limit, DEFAULT_LIMIT)
+      limit = opts.fetch(:limit, DEFAULT_LIMIT)
+
+      self.limit = [limit, DEFAULT_LIMIT_MAX].min
       self.page = opts.fetch(:page, DEFAULT_PAGE)
       self.order = opts.fetch(:order, DEFAULT_ORDER)
       self.search_type = opts.fetch(:search_type, DEFAULT_SEARCH_TYPE)
+
+      validate_search_type
+
       self.value = grind_value(opts[:q])
       # для обработки диапазонов нужно писать логику
     end
@@ -46,7 +52,17 @@ module PrettySearch
     #
     # Returns String.
     def grind_value(value)
-      /\Amatch/.match(search_type) ? "%#{value.strip.gsub(/\s+/, ' ')}%" : value
+      /match/.match(search_type) ? "%#{value.strip.gsub(/\s+/, ' ')}%" : value
+    end
+
+    # Internal: Проверяет, указан ли выбранный пользователем тип поиска
+    # в списке разрешенных к использованию методов
+    #
+    # Returns error, if search_type unavailable. Else returns nothing.
+    def validate_search_type
+      unless PrettySearch.accessible_search_methods.include? search_type
+        raise PrettySearch::WrongSearchTypeError
+      end
     end
   end
 end

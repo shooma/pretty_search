@@ -30,6 +30,8 @@ module PrettySearch
       set_model_for opts[:model_name]
       set_field_for opts[:field_name]
       set_field_list_for(opts[:model_name], opts[:field_list])
+
+      validate_availability
     end
 
     # Public: Формирует и выполняет запрос к БД, если:
@@ -43,18 +45,14 @@ module PrettySearch
     # 1. 'PrettySearch::WrongSearchTypeError'
     # 2. 'PrettySearch::UnavailableFieldError'
     def handle(query)
-      if PrettySearch.accessible_search_methods.include?(query.search_type)
-        condition = model_class.arel_table[field.name].send(query.search_type, query.value)
+      condition = model_class.arel_table[field.name].send(query.search_type, query.value)
 
-        model_class.
-          select(field_list).
-          where(condition).
-          order(query.order).
-          page(query.page).
-          per(query.limit)
-      else
-        raise PrettySearch::WrongSearchTypeError
-      end
+      model_class.
+        select(field_list).
+        where(condition).
+        order(query.order).
+        page(query.page).
+        per(query.limit)
     end
 
     protected
@@ -92,6 +90,16 @@ module PrettySearch
       self.field_list = list ||
                         PrettySearch.fields.stringify_keys[model_name] ||
                         PrettySearch.default_selected_fields
+    end
+
+    # Internal: Проверяет, можно ли искать по переданному полю, и можно ли возвращать переданный список полей
+    #
+    # Returns error, if field or field_list is unavailable.
+    def validate_availability
+      unless PrettySearch.available_for_use?(model_class.name.underscore, [field.name]) &&
+          PrettySearch.available_for_use?(model_class.name.underscore, field_list)
+        raise PrettySearch::UnavailableFieldError
+      end
     end
   end
 end
