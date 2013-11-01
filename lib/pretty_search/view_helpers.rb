@@ -10,7 +10,8 @@ module PrettySearch
       render :partial => 'pretty_search/buttons', :locals => { :options => opts.slice(*approved_options) }
     end
 
-    # Public: Прверяет тип поля в модели. Если это :text - возвращает true
+    # Public: Прверяет, нужно ли обрезать показываемую пользователю информацию.
+    # Выясняет это по типу поля в модели. Если это :text - возвращает true, надо укорачивать.
     #
     # Returns bool.
     def need_cut?(record, attr)
