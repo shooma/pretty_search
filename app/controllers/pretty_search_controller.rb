@@ -1,1 +1,0 @@
-class PrettySearchController < PrettySearch::PrettySearchController; end

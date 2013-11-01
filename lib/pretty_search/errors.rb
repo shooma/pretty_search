@@ -1,7 +1,7 @@
 module PrettySearch
   class PrettyError < StandardError
     def initialize(msg = I18n.t("pretty_search.errors.#{self.class.name.demodulize.underscore}"))
-      super(msg)
+      super
     end
   end
 

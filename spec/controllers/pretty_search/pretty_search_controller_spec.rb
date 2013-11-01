@@ -2,7 +2,7 @@
 require 'spec_helper'
 require_relative '../../fake_models'
 
-describe PrettySearchController do
+describe PrettySearch::PrettySearchController do
 
   describe '.search' do
     let(:params) { {"field_name" => "volume",

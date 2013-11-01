@@ -9,8 +9,8 @@ module PrettySearch
   autoload :Searcher,               'pretty_search/searcher'
   autoload :Query,                  'pretty_search/query'
 
-  require_relative '../app/controllers/pretty_search/pretty_search_controller.rb'
-  require_relative '../app/controllers/pretty_search_controller.rb'
+  #require_relative '../app/controllers/pretty_search/pretty_search_controller.rb'
+  #require_relative '../app/controllers/pretty_search_controller.rb'
   require_relative 'pretty_search/errors.rb'
 
   # Public: Поля, по которым будет осуществляться поиск,
