@@ -1,5 +1,3 @@
-#require 'active_support/core_ext/string' #used for '.blank?' method
-#
 class Field
   attr_accessor :name, :type
   def initialize(attributes = {})

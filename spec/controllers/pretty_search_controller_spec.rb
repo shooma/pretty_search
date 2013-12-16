@@ -1,6 +1,9 @@
 # encoding: utf-8
 require 'spec_helper'
-require_relative '../../fake_models'
+#require_relative '../../app/controllers/pretty_search/pretty_search_controller'
+require_relative '../fake_models'
+
+#PrettySearch::PrettySearchController.send(:include, Rails.application.routes.url_helpers)
 
 describe PrettySearch::PrettySearchController do
 
