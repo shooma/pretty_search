@@ -5,7 +5,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = "pretty_search"
-  gem.version       = '0.1.43'
+  gem.version       = '0.1.44'
 
   gem.add_runtime_dependency 'kaminari', ['>= 0.14']
   gem.add_runtime_dependency 'rails', ['~> 3']
