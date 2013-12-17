@@ -3,14 +3,10 @@ require "pretty_search/engine"
 
 module PrettySearch
 
-  require 'pretty_search/railtie' if defined?(Rails)
-
   autoload :Field,                  'pretty_search/field'
   autoload :Searcher,               'pretty_search/searcher'
   autoload :Query,                  'pretty_search/query'
 
-  #require_relative '../app/controllers/pretty_search/pretty_search_controller.rb'
-  #require_relative '../app/controllers/pretty_search_controller.rb'
   require_relative 'pretty_search/errors.rb'
 
   # Public: Поля, по которым будет осуществляться поиск,
