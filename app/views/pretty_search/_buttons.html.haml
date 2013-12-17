@@ -2,4 +2,4 @@
   %label{:class => "#{options[:model_name]}_#{options[:field_name]}_input"}= t("activerecord.attributes.#{options[:model_name]}.#{options[:field_name]}") if options[:field_name].present?
   %input{:class => "hidden_#{options[:field_name]}", :type => "hidden"}
   %input{:class => "input_#{options[:field_name]}", :type => "text", :readonly => true, :size => 50}
-  %button{:type => "button", 'data-reference-url' => pretty_search.query_path(options), 'data-reference-selector-id' => ".hidden_#{options[:field_name]}", 'data-reference-selector-text' => ".input_#{options[:field_name]}"} #{options[:button_text] || "..."}
+  %button{:type => "button", 'data-reference-url' => query_path(options), 'data-reference-selector-id' => ".hidden_#{options[:field_name]}", 'data-reference-selector-text' => ".input_#{options[:field_name]}"} #{options[:button_text] || "..."}
