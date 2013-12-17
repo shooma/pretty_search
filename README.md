@@ -29,9 +29,9 @@ gem 'pretty_search', '= 0.1.0', :git => 'git@github.com:shooma/pretty_search.git
 #less config/initializers/pretty_search.rb
 PrettySearch::PrettySearchController.send(:include, Rails.application.routes.url_helpers)
 ```
-и в роутах прописать маршрут:
+и в `routes.rb` смонтировать роуты движка:
 ```
-match 'query/:model_name' => 'pretty_search#search', :as => :query, :via => :get
+mount PrettySearch::Engine => "/search"
 ```
 Чтобы запросы начали ходить, то в том же инишиалайзере нужно добавить условие,
 по которму будет проверяться (в простейшем случае) авторизован ли пользователь,

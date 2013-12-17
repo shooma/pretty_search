@@ -1,10 +1,11 @@
 # encoding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+#lib = File.expand_path('../lib', __FILE__)
+#$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = "pretty_search"
-  gem.version       = '0.1.36'
+  gem.version       = '0.1.43'
 
   gem.add_runtime_dependency 'kaminari', ['>= 0.14']
   gem.add_runtime_dependency 'rails', ['~> 3']
@@ -17,9 +18,9 @@ Gem::Specification.new do |gem|
   gem.email         = ["neshooma@mail.ru", "shooma@mishkov@gmail.com"]
   gem.description   = %q{Штука, позволяющая искать записи по ассоциированным моделям прямо в форме}
   gem.summary       = %q{Штука, позволяющая искать записи по ассоциированным моделям прямо в форме}
-  gem.homepage      = ""
 
-  gem.files         = `git ls-files`.split($/)
+  #gem.files         = `git ls-files`.split($/)
+  gem.files         = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib", "app"]
