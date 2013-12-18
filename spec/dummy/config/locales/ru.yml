@@ -1,0 +1,8 @@
+ru:
+  pretty_search:
+    notifications:
+      no_results: 'Ничего не нашлось. Попробуйте скорректировать запрос.'
+    errors:
+      not_specified_url_error: 'Не указан адрес для редиректа пользователей, не имеющих доступа к запрашиваемому ресурсу. Смотри метод PrettySearch.auth_url'
+      wrong_search_type_error: 'Указанный тип поиска не поддерживается. Список поддерживаемых типов можно получить методом PrettySearch.accessible_search_methods'
+      unavailable_field_error: 'Поиск и выборка по указанному полю запрещены. Смотри методы PrettySearch.enabled_fields и PrettySearch.disabled_fields'

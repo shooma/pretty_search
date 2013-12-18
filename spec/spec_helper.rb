@@ -1,16 +1,16 @@
 # encoding: utf-8
 require 'rubygems'
 
+require File.expand_path("../../spec/dummy/config/environment", __FILE__)
+
 ENV["RAILS_ENV"] ||= 'test'
 
 require 'rails/all'
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'fixtures/application'
-#require 'fixtures/controllers'
 
 require 'pretty_search'
-require_relative '../app/controllers/pretty_search/pretty_search_controller.rb'
 
 RSpec.configure do |config|
   config.order = :random
