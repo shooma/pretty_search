@@ -13,6 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rspec-rails', '~> 2.13'
   gem.add_development_dependency 'shoulda-matchers', '~> 1.5.2'
+  gem.add_development_dependency 'factory_girl_rails'
   gem.add_development_dependency 'activerecord-postgresql-adapter'
   gem.add_development_dependency 'haml'
 
@@ -23,6 +24,7 @@ Gem::Specification.new do |gem|
 
   gem.files         = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  #gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.test_files    = Dir["spec/**/*"]
   gem.require_paths = ["lib", "app"]
 end

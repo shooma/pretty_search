@@ -1,13 +1,13 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: crm
+  database: pretty_search
   pool: 5
   timeout: 5000
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: crm_test
+  database: pretty_search_test
   pool: 5
   timeout: 5000
