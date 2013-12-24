@@ -7,7 +7,7 @@ describe PrettySearch::Query do
       expect(PrettySearch::Query::DEFAULT_LIMIT).to eq 10
       expect(PrettySearch::Query::DEFAULT_LIMIT_MAX).to eq 100
       expect(PrettySearch::Query::DEFAULT_PAGE).to eq 1
-      expect(PrettySearch::Query::DEFAULT_ORDER).to eq :id
+      expect(PrettySearch::Query::DEFAULT_ORDER).to eq 'id'
       expect(PrettySearch::Query::DEFAULT_SEARCH_TYPE).to eq 'eq'
     end
   end

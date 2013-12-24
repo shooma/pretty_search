@@ -47,12 +47,14 @@ module PrettySearch
     def handle(query)
       condition = model_class.arel_table[field.name].send(query.search_type, query.value)
 
-      model_class.
+      default_scopes = model_class.
         select(field_list).
         where(condition).
         order(query.order).
         page(query.page).
         per(query.limit)
+
+      add_extra_scopes_for(default_scopes, query)
     end
 
     protected
@@ -100,6 +102,18 @@ module PrettySearch
           PrettySearch.available_for_use?(model_class.name.underscore, field_list)
         raise PrettySearch::UnavailableFieldError
       end
+    end
+
+    # Internal: Добавляет к пользовательскому условию выборки стандартные задаываемые условия
+    #
+    # results - Экземпляр класса 'ActiveRecord::Relation' (обяз.).
+    # query   - Экземпляр класса 'PrettySearch::Query' (обяз.).
+    def add_extra_scopes_for(results, query)
+      return results if query.extra_scopes.blank?
+      query.extra_scopes.each do |scope|
+        results = results.send(scope)
+      end
+      results
     end
   end
 end

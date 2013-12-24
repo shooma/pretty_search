@@ -8,10 +8,10 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'rails/all'
 require 'rspec/rails'
 require 'rspec/autorun'
-require "factory_girl_rails"
+require 'database_cleaner'
 
 require 'pretty_search'
-#require 'factories'
+
 Dir[Rails.root.join('spec/factories/*.rb')].each { |f| require f }
 
 
@@ -22,7 +22,25 @@ RSpec.configure do |config|
   config.formatter = :documentation
   config.color_enabled = true
   config.tty = true
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
+
+#let!(:first_company) { Company.create(:title => 'first title') }
+#let!(:second_company) { Company.create(:title => 'second title') }
+#let!(:little_mug) { Mug.create(:volume => 200) }
+#let!(:huge_mug) { Mug.create(:volume => 450) }
 
 #class Field
 #  attr_accessor :name, :type

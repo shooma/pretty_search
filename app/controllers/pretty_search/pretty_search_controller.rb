@@ -3,7 +3,7 @@ module PrettySearch
   class PrettySearchController < ActionController::Base
 
     SEARCH_PARAMS = %w(field_name field_list model_name)
-    QUERY_PARAMS  = %w(limit offset order page q search_type)
+    QUERY_PARAMS  = %w(limit offset order page q search_type extra_scopes)
 
     # Public: Задает/считывает две переменные, далее используемые во вью
     # В @options хранятся данные, необходимые для построения таблицы,

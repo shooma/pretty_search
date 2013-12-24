@@ -10,19 +10,21 @@ module PrettySearch
   class Query
     # Public: Задает/считывает основные опции запроса:
     #
-    # value       - Поисковый запрос.
-    # limit       - Число результатов на странице
-    # page        - Номер возвращаемой страницы.
-    # order       - Сортировка результатов по полю. Символ (имя поля).
-    # search_type - Тип поиска. По дефолту один из методов-предикатов Arel'a:
+    # value        - Поисковый запрос.
+    # limit        - Число результатов на странице
+    # page         - Номер возвращаемой страницы.
+    # order        - Сортировка результатов по полю. Символ (имя поля).
+    # search_type  - Тип поиска. По дефолту один из методов-предикатов Arel'a:
     # http://rubydoc.info/github/rails/arel/master/Arel/Predications
-    attr_accessor :value, :limit, :page, :order, :search_type
+    # extra_scopes - Дополнительные условия поиска (а-ля скоупов 'active', или [:where, "state = 'active'"])
+    attr_accessor :value, :limit, :page, :order, :search_type, :extra_scopes
 
     DEFAULT_LIMIT = 10
     DEFAULT_LIMIT_MAX = 100
     DEFAULT_PAGE = 1
-    DEFAULT_ORDER = :id
+    DEFAULT_ORDER = 'id'
     DEFAULT_SEARCH_TYPE = 'eq'
+    DEFAULT_EXTRA_SCOPES = []
 
     # Public: Инициализирует запрос.
     #
@@ -37,6 +39,7 @@ module PrettySearch
       self.page = opts.fetch(:page, DEFAULT_PAGE)
       self.order = opts.fetch(:order, DEFAULT_ORDER)
       self.search_type = opts.fetch(:search_type, DEFAULT_SEARCH_TYPE)
+      self.extra_scopes = opts.fetch(:extra_scopes, DEFAULT_EXTRA_SCOPES)
 
       validate_search_type
 

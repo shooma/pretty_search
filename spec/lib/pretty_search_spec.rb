@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'spec_helper'
-require_relative '../fake_models'
 
 describe PrettySearch do
   describe '.available_for_use?' do

@@ -1,4 +1,12 @@
 ru:
+  activerecord:
+    attributes:
+      mug:
+        id: 'ID'
+        volume: 'Объем'
+      company:
+        id: 'ID'
+        title: 'Название'
   pretty_search:
     notifications:
       no_results: 'Ничего не нашлось. Попробуйте скорректировать запрос.'
