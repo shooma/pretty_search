@@ -123,7 +123,7 @@ $(document).ready(function() {
       $this = $(this),
       ref = new Reference({
         dialog: {
-          title: $(this).data('reference-title')
+          title: $this.data('reference-title')
         },
         ajax: {
           url: $this.data('reference-url')
@@ -132,6 +132,7 @@ $(document).ready(function() {
           ok: function($selected) {
             $($this.data('reference-selector-id')).val($selected.data('id'));
             $($this.data('reference-selector-text')).val($selected.data('text'));
+            $($this.data('reference-selector-id')).trigger('change');
           }
         }
       });

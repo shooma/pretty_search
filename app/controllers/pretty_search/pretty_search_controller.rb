@@ -3,7 +3,12 @@ module PrettySearch
   class PrettySearchController < ActionController::Base
 
     SEARCH_PARAMS = %w(field_name field_list model_name)
-    QUERY_PARAMS  = %w(limit offset order page q search_type)
+    QUERY_PARAMS  = %w(limit offset order page q search_type extra_scopes)
+
+    # Public: Задает/считывает две переменные, далее используемые во вью
+    # В @options хранятся данные, необходимые для построения таблицы,
+    # а в @results - результат выполнения запроса, данные. заполняющие таблицу.
+    attr_accessor :options, :results
 
     # Public: Метод, который обрабатывает пользовательские запросы-выборки.
     #
@@ -23,17 +28,13 @@ module PrettySearch
         searcher = PrettySearch::Searcher.new(search_params)
         query = PrettySearch::Query.new(query_params)
 
-        if searcher.field.available_for_search? && searcher.available_for_select?
-          @options = {
-            model_name: search_params[:model_name],
-            field_name: searcher.field.name,
-            field_list: searcher.field_list
-          }
+        self.options = {
+          model_name: search_params[:model_name],
+          field_name: searcher.field.name,
+          field_list: searcher.field_list
+        }
 
-          @results = searcher.handle(query)
-        else
-          raise PrettySearch::UnavailableFieldError
-        end
+        self.results = searcher.handle(query)
       else
         return redirect_to PrettySearch.auth_url if PrettySearch.auth_url.present?
         raise PrettySearch::NotSpecifiedUrlError

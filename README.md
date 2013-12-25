@@ -10,7 +10,7 @@
 
 Добавь в Gemfile:
 ```
-gem 'pretty_search', '= 0.1.0', :git => 'git@github.com:shooma/pretty_search.git'
+gem 'pretty_search', :git => 'git@github.com:shooma/pretty_search.git'
 ```
 
 В application.js (или в сборку, в которой собираетесь использовать) добавляем
@@ -24,15 +24,6 @@ gem 'pretty_search', '= 0.1.0', :git => 'git@github.com:shooma/pretty_search.git
 @import "pretty_search";
 ```
 
-Еще в инишиалайзер надо добавить:
-```
-#less config/initializers/pretty_search.rb
-PrettySearch::PrettySearchController.send(:include, Rails.application.routes.url_helpers)
-```
-и в роутах прописать маршрут:
-```
-match 'query/:model_name' => 'pretty_search#search', :as => :query, :via => :get
-```
 Чтобы запросы начали ходить, то в том же инишиалайзере нужно добавить условие,
 по которму будет проверяться (в простейшем случае) авторизован ли пользователь,
 и (необязатнльно) URL, на который будет перенаправлен пользователь, если `authorised` разрешается в false:

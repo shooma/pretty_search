@@ -30,6 +30,8 @@ module PrettySearch
       set_model_for opts[:model_name]
       set_field_for opts[:field_name]
       set_field_list_for(opts[:model_name], opts[:field_list])
+
+      validate_availability
     end
 
     # Public: Формирует и выполняет запрос к БД, если:
@@ -43,41 +45,16 @@ module PrettySearch
     # 1. 'PrettySearch::WrongSearchTypeError'
     # 2. 'PrettySearch::UnavailableFieldError'
     def handle(query)
-      if PrettySearch.accessible_search_methods.include?(query.search_type.to_sym)
-        condition = model_class.arel_table[field.name].send(query.search_type, query.value)
+      condition = model_class.arel_table[field.name].send(query.search_type, query.value)
 
-        model_class.
-          select(field_list).
-          where(condition).
-          order(query.order).
-          page(query.page).
-          per(query.limit)
-      else
-        raise PrettySearch::WrongSearchTypeError
-      end
-    end
+      default_scopes = model_class.
+        select(field_list).
+        where(condition).
+        order(query.order).
+        page(query.page).
+        per(query.limit)
 
-    # Public: Проверяет, можно ли возвращать выбранные поля.
-    #
-    # Returns bool.
-    def available_for_select?
-      model_name = model_class.to_s.downcase.to_sym
-
-      if PrettySearch.disabled_fields.any?
-        if PrettySearch.disabled_fields.keys.include? model_name
-          (field_list & PrettySearch.disabled_fields[model_name]).none?
-        else
-          true
-        end
-      elsif PrettySearch.enabled_fields.any?
-        if PrettySearch.enabled_fields.keys.include? model_name
-          (field_list - PrettySearch.enabled_fields[model_name]).none?
-        else
-          false
-        end
-      else
-        true
-      end
+      add_extra_scopes_for(default_scopes, query)
     end
 
     protected
@@ -112,8 +89,31 @@ module PrettySearch
     #
     # Returns массив символов - имен возвращаемых полей.
     def set_field_list_for(model_name, list = nil)
-      list ||= PrettySearch.fields[model_name.to_sym] || PrettySearch.default_selected_fields
-      self.field_list = list.map(&:to_sym) if list
+      self.field_list = list ||
+                        PrettySearch.fields.stringify_keys[model_name] ||
+                        PrettySearch.default_selected_fields
+    end
+
+    # Internal: Проверяет, можно ли искать по переданному полю, и можно ли возвращать переданный список полей
+    #
+    # Returns error, if field or field_list is unavailable.
+    def validate_availability
+      unless PrettySearch.available_for_use?(model_class.name.underscore, [field.name]) &&
+          PrettySearch.available_for_use?(model_class.name.underscore, field_list)
+        raise PrettySearch::UnavailableFieldError
+      end
+    end
+
+    # Internal: Добавляет к пользовательскому условию выборки стандартные задаываемые условия
+    #
+    # results - Экземпляр класса 'ActiveRecord::Relation' (обяз.).
+    # query   - Экземпляр класса 'PrettySearch::Query' (обяз.).
+    def add_extra_scopes_for(results, query)
+      return results if query.extra_scopes.blank?
+      query.extra_scopes.each do |scope|
+        results = results.send(scope)
+      end
+      results
     end
   end
 end
