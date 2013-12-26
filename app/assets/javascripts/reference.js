@@ -7,6 +7,7 @@ function Reference(options) {
     _self = this,
     _default = {
       callback: {},
+      preload: false,
       dialog: {
         modal: true,
         height: 'auto',
@@ -92,8 +93,8 @@ function Reference(options) {
       .hide();
 
   // поиск
-  function _find() {
-    if (!_$container.find('.js-reference-input').val()) {
+  function _find(empty) {
+    if (!_$container.find('.js-reference-input').val() && !empty) {
       return false;
     }
     $('.ui-dialog-buttonpane button:contains(' + _options.captionOK + ')', _$container.parent()).button('disable');
@@ -105,7 +106,10 @@ function Reference(options) {
   }
 
   this.open = function() {
-    _$container.dialog('open');        
+    _$container.dialog('open');
+    if (_options.preload && !_$container.find('.js-reference-input').val()) {
+      _find(true);
+    }
   }
 
   this.close = function() {
@@ -132,9 +136,10 @@ $(document).ready(function() {
           ok: function($selected) {
             $($this.data('reference-selector-id')).val($selected.data('id'));
             $($this.data('reference-selector-text')).val($selected.data('text'));
-            $($this.data('reference-selector-id')).trigger('change');
+            $($this.data('reference-selector-id')).change();
           }
-        }
+        },
+        preload: $this.data('reference-preload')
       });
 
     $this.click(function() {
