@@ -1,4 +1,4 @@
-%tr{'data-id' => record.id, 'data-text' => record[@options[:field_name]]}
+%tr{'data-id' => record.id, 'data-text' => record[@options[:displayed_name] || @options[:field_name]]}
   - @options[:field_list].each do |attr|
     %td{:title => record[attr]}
       %div{ :class => ('reference-short-field' if need_cut?(record, attr) ) }
