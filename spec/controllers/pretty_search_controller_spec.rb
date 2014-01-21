@@ -6,6 +6,7 @@ describe PrettySearch::PrettySearchController do
     let!(:little_mug) { Mug.create(:volume => 200) }
 
     let(:params) { {"field_name" => "volume",
+                    "displayed_name" => "id",
                     "field_list" => ["id", "volume"],
                     "q" => little_mug.volume,
                     "controller" => :pretty_search,
@@ -30,6 +31,7 @@ describe PrettySearch::PrettySearchController do
 
           expect(response).to render_template :search
           expect(controller.options).to eq({
+            :displayed_name => "id",
             :model_name => params["model_name"],
             :field_name => searcher.field.name,
             :field_list => searcher.field_list

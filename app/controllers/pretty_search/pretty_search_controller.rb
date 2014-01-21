@@ -2,7 +2,7 @@
 module PrettySearch
   class PrettySearchController < ActionController::Base
 
-    SEARCH_PARAMS = %w(field_name field_list model_name)
+    SEARCH_PARAMS = %w(field_name field_list model_name displayed_name)
     QUERY_PARAMS  = %w(limit offset order page q search_type extra_scopes)
 
     # Public: Задает/считывает две переменные, далее используемые во вью
@@ -31,7 +31,8 @@ module PrettySearch
         self.options = {
           model_name: search_params[:model_name],
           field_name: searcher.field.name,
-          field_list: searcher.field_list
+          field_list: searcher.field_list,
+          displayed_name: search_params[:displayed_name]
         }
 
         self.results = searcher.handle(query)
