@@ -1,8 +1,8 @@
 # encoding: utf-8
-$:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name          = "pretty_search"
+  gem.name          = 'pretty_search'
   gem.version       = '0.1.50'
 
   gem.add_runtime_dependency 'rails', '~> 3'
@@ -18,13 +18,13 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'capybara'
   gem.add_development_dependency 'database_cleaner'
 
-  gem.authors       = ["shooma", "waxerdima"]
-  gem.email         = ["neshooma@mail.ru", "shooma@mishkov@gmail.com"]
-  gem.description   = %q{Штука, позволяющая искать записи по ассоциированным моделям прямо в форме}
-  gem.summary       = %q{Штука, позволяющая искать записи по ассоциированным моделям прямо в форме}
+  gem.authors       = %w(shooma waxerdima)
+  gem.email         = %w(shooma.mishkov@gmail.com)
+  gem.description   = %q{Form searcher, simplifying select associated models}
+  gem.summary       = %q{Form searcher}
 
-  gem.files         = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  gem.test_files    = Dir["spec/**/*"]
+  gem.files         = Dir['{app,config,db,lib}/**/*'] + %w(LICENSE.txt Rakefile README.rdoc)
+  gem.test_files    = Dir['spec/**/*']
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.require_paths = ["lib", "app"]
+  gem.require_paths = %w(lib app)
 end
