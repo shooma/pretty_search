@@ -135,20 +135,18 @@ $(document).ready(function() {
         callback: {
           ok: function($selected) {
             var $container = $($this.data('reference-selector-id'));
-            console.log('switch');
+
             switch($container[0].tagName) {
               case 'INPUT':
-                console.log('input');
                 $($this.data('reference-selector-id')).val($selected.data('id'));
                 $($this.data('reference-selector-text')).val($selected.data('text'));
                 $($this.data('reference-selector-id')).change();
                 break;
               case 'SELECT':
-                console.log('select');
                 if (!$container.find('option[value="' + $selected.data('id') + '"]').length) {
                   $container.append($('<option>').val($selected.data('id')).text($selected.data('text')));
                 }
-                $container.find('options[value="' + $selected.data('id') + '"]').prop('selected', true);
+                $container.find('option[value="' + $selected.data('id') + '"]').prop('selected', true);
                 break;
             }
           }

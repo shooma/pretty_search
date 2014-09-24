@@ -3,7 +3,7 @@ $:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = 'pretty_search'
-  gem.version       = '0.2.0'
+  gem.version       = '0.2.1'
 
   gem.add_runtime_dependency 'rails', '~> 3'
   gem.add_runtime_dependency 'haml', '>= 0'
