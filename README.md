@@ -8,9 +8,14 @@
 
 ## Installation
 
-Добавь в Gemfile:
+Добавьте в Gemfile:
 ```
 gem 'pretty_search', :git => 'git@github.com:shooma/pretty_search.git'
+```
+Также убедитесь, что в вашем Gemfile есть следующие гемы:
+```
+gem 'kaminari'
+gem 'haml', '~> 4.0.5'
 ```
 
 В application.js (или в сборку, в которой собираетесь использовать) добавляем
