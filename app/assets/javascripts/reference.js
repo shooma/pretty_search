@@ -77,7 +77,7 @@ function Reference(options) {
           .click(_find),
         $('<div>')
           .addClass(_options.classResult + ' js-reference-result')
-          .on('click', '*', function(e) {
+          .on('click', 'tr', function(e) {
             var $selected = $(this);
             if (!$selected.data('id')) {
               $selected = $(this).closest('[data-id]');
